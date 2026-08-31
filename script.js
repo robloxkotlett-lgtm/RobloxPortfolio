@@ -207,8 +207,8 @@ function initCopyButtons() {
 
     if (copyDiscordBtn) {
         copyDiscordBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText('@Focusdev').then(() => {
-                showToast('Copied Discord tag: @Focusdev');
+            navigator.clipboard.writeText('@F0cus_dev').then(() => {
+                showToast('Copied Discord tag: @F0cus_dev');
             });
         });
     }
