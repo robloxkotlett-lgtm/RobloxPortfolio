@@ -19,7 +19,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 
 <body>
@@ -62,10 +62,6 @@
 
             <!-- Availability & Timezone Widget -->
             <div class="header-status">
-                <div class="status-badge" id="statusBadge" title="Contact Availability Status">
-                    <span class="status-dot pulsing" id="statusDot"></span>
-                    <span class="status-text" id="statusText">Available for contact</span>
-                </div>
                 <div class="clock-widget" title="FocusDev Local Time (GMT+3)">
                     <i data-lucide="clock" class="clock-icon"></i>
                     <span id="gmtClock">00:00:00 GMT+3</span>
@@ -293,7 +289,8 @@
                             </div>
                             <h3>Inventory System with Trading Feature</h3>
                             <p>
-                                A complete inventory system with trading. Players can easily manage items and securely trade with others.
+                                A complete inventory system with trading. Players can easily manage items and securely
+                                trade with others.
                             </p>
                             <div class="video-actions">
                                 <a href="https://youtu.be/etnXXhO6eAI" target="_blank" rel="noopener noreferrer"
@@ -320,7 +317,8 @@
                             </div>
                             <h3>Capture the Point System</h3>
                             <p>
-                                A dynamic capture the point system. Features real-time progress updates and team scoring.
+                                A dynamic capture the point system. Features real-time progress updates and team
+                                scoring.
                             </p>
                             <div class="video-actions">
                                 <a href="https://youtu.be/JHcuQYAFhV8" target="_blank" rel="noopener noreferrer"
@@ -351,6 +349,33 @@
                             </p>
                             <div class="video-actions">
                                 <a href="https://youtu.be/vH-iwJEos6o" target="_blank" rel="noopener noreferrer"
+                                    class="btn btn-sm btn-gold btn-block">
+                                    <i data-lucide="external-link"></i> Watch on YouTube
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video 4: Grappling Hook System -->
+                    <div class="video-card glass-panel glow-border">
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/InOM44v6_iM" title="FocusDev Grappling Hook System"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="video-card-body">
+                            <div class="video-tag-row">
+                                <span class="v-tag gold">Video Showcase</span>
+                                <span class="v-tag">Grappling Hook</span>
+                            </div>
+                            <h3>Grappling Hook System</h3>
+                            <p>
+                                A fluid and dynamic grappling hook system. Features realistic physics, smooth swinging mechanics, and responsive controls for fast-paced traversal.
+                            </p>
+                            <div class="video-actions">
+                                <a href="https://youtu.be/InOM44v6_iM" target="_blank" rel="noopener noreferrer"
                                     class="btn btn-sm btn-gold btn-block">
                                     <i data-lucide="external-link"></i> Watch on YouTube
                                 </a>
@@ -453,10 +478,6 @@ FocusDev.WorkMode = <span class="s">"Fast & Reliable"</span>
                             Mostly available for <strong>short-term commissions</strong> (single systems or small
                             bundles). Can also work for longer periods for better payment.
                         </p>
-                        <div class="availability-status">
-                            <span class="status-indicator-dot" id="cardStatusDot"></span>
-                            <span id="cardStatusText">Available for contact</span>
-                        </div>
                     </div>
 
                     <!-- Payment Options Card -->

@@ -636,9 +636,13 @@ body {
 }
 
 /* --- Featured Video Works Section --- */
+.video-works-section {
+    padding-bottom: 30px;
+}
+
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 28px;
 }
 
@@ -719,6 +723,10 @@ body {
 }
 
 /* --- Why Me (Bullet List Section) --- */
+.why-section {
+    padding-top: 30px;
+}
+
 .why-wrapper {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
@@ -1012,7 +1020,7 @@ body {
 
 /* --- Responsive Breakpoints --- */
 @media (max-width: 1024px) {
-    .about-grid, .video-grid, .rates-grid {
+    .about-grid, .rates-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -1055,7 +1063,7 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .about-grid, .video-grid, .rates-grid, .contact-grid {
+    .about-grid, .rates-grid, .contact-grid {
         grid-template-columns: 1fr;
     }
 
