@@ -1,5 +1,6 @@
 /* ==========================================================================
-   FOCUSDEV - ROBLOX PORTFOLIO INTERACTIVE LOGIC
+   FOCUSDEV - ROBLOX LUAU PORTFOLIO INTERACTIVE LOGIC
+   Timezone: GMT+2
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // 2. Dynamic Particle Canvas Background
+    // 2. Dynamic Gold Constellation Canvas
     initParticleCanvas();
 
-    // 3. Live GMT+3 Clock & Contact Availability Monitor
-    initGMTClockAndAvailability();
+    // 3. Live GMT+2 Clock
+    initGMTClock();
 
     // 4. Navbar Sticky Scroll & Mobile Navigation
     initNavigation();
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   PARTICLE CANVAS (GOLD CONSTELLATION NETWORK)
+   PARTICLE CANVAS (REFINED GOLD CONSTELLATION NETWORK)
    -------------------------------------------------------------------------- */
 function initParticleCanvas() {
     const canvas = document.getElementById('particleCanvas');
@@ -32,24 +33,28 @@ function initParticleCanvas() {
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
-    window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    });
-
     const particles = [];
-    const particleCount = Math.min(Math.floor(width / 18), 75);
+    const particleCount = Math.min(Math.floor(width / 22), 65);
 
     for (let i = 0; i < particleCount; i++) {
         particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 0.4,
-            vy: (Math.random() - 0.5) * 0.4,
-            radius: Math.random() * 1.8 + 0.8,
-            alpha: Math.random() * 0.6 + 0.2
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35,
+            radius: Math.random() * 1.5 + 0.6,
+            alpha: Math.random() * 0.5 + 0.15
         });
     }
+
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        particles.forEach(p => {
+            if (p.x > width) p.x = Math.random() * width;
+            if (p.y > height) p.y = Math.random() * height;
+        });
+    });
 
     function animate() {
         ctx.clearRect(0, 0, width, height);
@@ -64,27 +69,27 @@ function initParticleCanvas() {
             if (p.y < 0) p.y = height;
             if (p.y > height) p.y = 0;
 
-            // Draw golden particle
+            // Draw gold particle
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(229, 193, 88, ${p.alpha})`;
-            ctx.shadowBlur = 8;
-            ctx.shadowColor = 'rgba(229, 193, 88, 0.4)';
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = 'rgba(229, 193, 88, 0.3)';
             ctx.fill();
 
-            // Connect nearby particles with subtle golden lines
+            // Connect nearby nodes
             for (let j = i + 1; j < particles.length; j++) {
                 const p2 = particles[j];
                 const dx = p.x - p2.x;
                 const dy = p.y - p2.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
 
-                if (dist < 120) {
+                if (dist < 110) {
                     ctx.beginPath();
                     ctx.moveTo(p.x, p.y);
                     ctx.lineTo(p2.x, p2.y);
-                    ctx.strokeStyle = `rgba(229, 193, 88, ${0.12 * (1 - dist / 120)})`;
-                    ctx.lineWidth = 0.6;
+                    ctx.strokeStyle = `rgba(229, 193, 88, ${0.09 * (1 - dist / 110)})`;
+                    ctx.lineWidth = 0.5;
                     ctx.stroke();
                 }
             }
@@ -97,77 +102,29 @@ function initParticleCanvas() {
 }
 
 /* --------------------------------------------------------------------------
-   LIVE GMT+3 CLOCK & CONTACT AVAILABILITY MONITOR
+   LIVE GMT+2 CLOCK
    -------------------------------------------------------------------------- */
-function initGMTClockAndAvailability() {
+function initGMTClock() {
     const clockEl = document.getElementById('gmtClock');
-    const statusBadge = document.getElementById('statusBadge');
-    const statusDot = document.getElementById('statusDot');
-    const statusText = document.getElementById('statusText');
-    
-    const cardStatusText = document.getElementById('cardStatusText');
-    const cardStatusDot = document.getElementById('cardStatusDot');
+    if (!clockEl) return;
 
-    function updateTimeAndStatus() {
+    function updateTime() {
         const now = new Date();
         const utcHours = now.getUTCHours();
         const utcMinutes = now.getUTCMinutes();
         const utcSeconds = now.getUTCSeconds();
 
-        // Calculate GMT+3 hours
-        const gmt3Hours = (utcHours + 3) % 24;
-        const formattedHours = String(gmt3Hours).padStart(2, '0');
+        // Calculate GMT+2 hours (0-23)
+        const gmt2Hours = (utcHours + 2) % 24;
+        const formattedHours = String(gmt2Hours).padStart(2, '0');
         const formattedMinutes = String(utcMinutes).padStart(2, '0');
         const formattedSeconds = String(utcSeconds).padStart(2, '0');
 
-        if (clockEl) {
-            clockEl.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} GMT+3`;
-        }
-
-        // Contact Availability Rule:
-        // Unavailable between 23:00 and 07:00 local time (gmt3Hours >= 23 or gmt3Hours < 7)
-        const isUnavailable = (gmt3Hours >= 23 || gmt3Hours < 7);
-
-        if (isUnavailable) {
-            // Calculate minutes left until 07:00 GMT+3
-            let totalMinsLeft = 0;
-            if (gmt3Hours >= 23) {
-                totalMinsLeft = (24 - gmt3Hours + 7) * 60 - utcMinutes;
-            } else {
-                totalMinsLeft = (7 - gmt3Hours) * 60 - utcMinutes;
-            }
-
-            const hLeft = Math.floor(totalMinsLeft / 60);
-            const mLeft = totalMinsLeft % 60;
-            const countdownStr = `(Available in ${hLeft}h ${mLeft}m)`;
-
-            const labelStr = `Not available for contact ${countdownStr}`;
-
-            if (statusBadge) statusBadge.classList.add('offline');
-            if (statusDot) {
-                statusDot.className = 'status-dot offline pulsing-red';
-            }
-            if (statusText) statusText.textContent = labelStr;
-
-            if (cardStatusText) cardStatusText.textContent = labelStr;
-            if (cardStatusDot) cardStatusDot.className = 'status-indicator-dot offline';
-        } else {
-            // Available for contact (07:00 - 23:00)
-            const labelStr = "Available for contact";
-
-            if (statusBadge) statusBadge.classList.remove('offline');
-            if (statusDot) {
-                statusDot.className = 'status-dot pulsing';
-            }
-            if (statusText) statusText.textContent = labelStr;
-
-            if (cardStatusText) cardStatusText.textContent = labelStr;
-            if (cardStatusDot) cardStatusDot.className = 'status-indicator-dot';
-        }
+        clockEl.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} GMT+2`;
     }
 
-    updateTimeAndStatus();
-    setInterval(updateTimeAndStatus, 1000);
+    updateTime();
+    setInterval(updateTime, 1000);
 }
 
 /* --------------------------------------------------------------------------
@@ -187,14 +144,23 @@ function initNavigation() {
     });
 
     if (mobileToggle && navLinks) {
-        mobileToggle.addEventListener('click', () => {
+        mobileToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             navLinks.classList.toggle('open');
         });
 
+        // Close when clicking nav links
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('open');
             });
+        });
+
+        // Close when clicking outside of the navbar
+        document.addEventListener('click', (e) => {
+            if (!navbar.contains(e.target)) {
+                navLinks.classList.remove('open');
+            }
         });
     }
 }
@@ -202,26 +168,68 @@ function initNavigation() {
 /* --------------------------------------------------------------------------
    CONTACT COPY BUTTONS & TOAST
    -------------------------------------------------------------------------- */
+let toastTimeout = null;
+
 function initCopyButtons() {
     const copyDiscordBtn = document.getElementById('copyDiscordBtn');
 
     if (copyDiscordBtn) {
         copyDiscordBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText('@F0cus_dev').then(() => {
-                showToast('Copied Discord tag: @F0cus_dev');
-            });
+            const discordTag = '@F0cus_dev';
+            
+            // Clipboard API with fallback
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(discordTag).then(() => {
+                    handleCopySuccess(copyDiscordBtn, discordTag);
+                }).catch(() => {
+                    fallbackCopyText(discordTag, copyDiscordBtn);
+                });
+            } else {
+                fallbackCopyText(discordTag, copyDiscordBtn);
+            }
         });
     }
+}
+
+function handleCopySuccess(button, text) {
+    showToast(`Copied Discord tag: ${text}`);
+
+    const originalHTML = button.innerHTML;
+    button.innerHTML = `<i data-lucide="check"></i> <span>Copied!</span>`;
+    if (window.lucide) lucide.createIcons();
+
+    setTimeout(() => {
+        button.innerHTML = originalHTML;
+        if (window.lucide) lucide.createIcons();
+    }, 2000);
+}
+
+function fallbackCopyText(text, button) {
+    const tempInput = document.createElement('input');
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    try {
+        document.execCommand('copy');
+        handleCopySuccess(button, text);
+    } catch (err) {
+        showToast('Discord Tag: ' + text);
+    }
+    document.body.removeChild(tempInput);
 }
 
 function showToast(message) {
     const toast = document.getElementById('toast');
     if (!toast) return;
 
+    if (toastTimeout) {
+        clearTimeout(toastTimeout);
+    }
+
     toast.textContent = message;
     toast.classList.add('show');
 
-    setTimeout(() => {
+    toastTimeout = setTimeout(() => {
         toast.classList.remove('show');
     }, 2800);
 }
